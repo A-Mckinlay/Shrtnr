@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shrtnr", "Shrtnr\Shrtnr.csproj", "{44B5AB37-C22A-4E16-8748-C609BF2841D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlValidationClient", "UrlValidationClient\UrlValidationClient.csproj", "{A27BDE81-BC26-4100-8E1F-32A28DCC6582}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlValidationClientTests", "UrlValidationClientTests\UrlValidationClientTests.csproj", "{889ED01F-764F-40BA-A61A-7B4282DA9CE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,5 +17,13 @@ Global
 		{44B5AB37-C22A-4E16-8748-C609BF2841D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44B5AB37-C22A-4E16-8748-C609BF2841D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44B5AB37-C22A-4E16-8748-C609BF2841D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A27BDE81-BC26-4100-8E1F-32A28DCC6582}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A27BDE81-BC26-4100-8E1F-32A28DCC6582}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A27BDE81-BC26-4100-8E1F-32A28DCC6582}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A27BDE81-BC26-4100-8E1F-32A28DCC6582}.Release|Any CPU.Build.0 = Release|Any CPU
+		{889ED01F-764F-40BA-A61A-7B4282DA9CE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{889ED01F-764F-40BA-A61A-7B4282DA9CE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{889ED01F-764F-40BA-A61A-7B4282DA9CE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{889ED01F-764F-40BA-A61A-7B4282DA9CE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
