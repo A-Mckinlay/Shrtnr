@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using UrlValidationClient;
 using HashidsNet;
+using ShrtnrTableClient.Repository;
+using ShrtnrTableClient.Model.Dto;
 
 namespace Shrtnr.Controllers
 {
@@ -16,11 +18,13 @@ namespace Shrtnr.Controllers
     {
         private readonly ILogger<ShrtnController> _logger;
         private readonly IUrlValidator _urlValidator;
+        private readonly IShrtUrlRepo _shrtUrlRepo;
 
-        public ShrtnController(ILogger<ShrtnController> logger, IUrlValidator urlValidator)
+        public ShrtnController(ILogger<ShrtnController> logger, IUrlValidator urlValidator, IShrtUrlRepo shrtUrlRepo)
         {
             _logger = logger;
             _urlValidator = urlValidator;
+            _shrtUrlRepo = shrtUrlRepo;
         }
 
         [HttpPost]
@@ -37,10 +41,14 @@ namespace Shrtnr.Controllers
                     var hashids = new Hashids("this is my salt", 6);
                     int timestamp = (int)(Int64)(DateTime.UtcNow.Subtract(DateTime.UnixEpoch)).TotalMilliseconds;
                     var hash = hashids.Encode(Math.Abs(timestamp));
-                    dynamic urlHashPair = new ExpandoObject();
-                    urlHashPair.url = url;
-                    urlHashPair.hash = hash;
-                    return new OkObjectResult(urlHashPair);
+
+                    var tableRes = await _shrtUrlRepo.AddShrtUrl(new UrlHashPair
+                    {
+                        Url = url,
+                        Hash = hash
+                    });
+
+                    return new OkObjectResult(new UrlHashPair().FromShrtUrlEntity(tableRes));
                 }
 
                 dynamic invalidUrlResult = new ExpandoObject();

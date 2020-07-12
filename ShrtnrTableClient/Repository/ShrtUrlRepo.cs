@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos.Table;
 using ShrtnrTableClient.Model;
+using ShrtnrTableClient.Model.Dto;
 
 namespace ShrtnrTableClient.Repository
 {
@@ -16,9 +17,11 @@ namespace ShrtnrTableClient.Repository
             _shrtUrlTable = tableClient.GetTableReference("ShrtnrTable");
         }
 
-        public async Task<ShrtUrlEntity> AddShrtUrl(ShrtUrlEntity shrtUrlEntity)
+        public async Task<ShrtUrlEntity> AddShrtUrl(UrlHashPair urlHashPair)
         {
-            if (shrtUrlEntity == null) throw new ArgumentNullException("shrtUrlEntity");
+            if (urlHashPair == null) throw new ArgumentNullException("shrtUrlEntity");
+
+            var shrtUrlEntity = new ShrtUrlEntity(urlHashPair.Url, urlHashPair.Hash);
 
             TableOperation insertOrMergeOperation = TableOperation.InsertOrMerge(shrtUrlEntity);
 

@@ -10,5 +10,6 @@
   <ItemGroup>
     <Folder Include="Repository\" />
     <Folder Include="Model\" />
+    <Folder Include="Model\Dto\" />
   </ItemGroup>
 </Project>

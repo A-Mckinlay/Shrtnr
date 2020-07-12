@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
 using ShrtnrTableClient.Model;
+using ShrtnrTableClient.Model.Dto;
 
 namespace ShrtnrTableClient.Repository
 {
     public interface IShrtUrlRepo
     {
-        Task<ShrtUrlEntity> AddShrtUrl(ShrtUrlEntity shrtUrlEntity);
+        Task<ShrtUrlEntity> AddShrtUrl(UrlHashPair shrtUrlEntity);
     }
 }
