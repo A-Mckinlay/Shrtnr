@@ -36,13 +36,10 @@ namespace Shrtnr.Controllers
                 {
                     var hashids = new Hashids("this is my salt", 6);
                     int timestamp = (int)(Int64)(DateTime.UtcNow.Subtract(DateTime.UnixEpoch)).TotalMilliseconds;
-                    var sliceTimestamp = int.Parse(timestamp.ToString().Substring(2));
-                    _logger.LogInformation($"LOOOK HERER I IS TIMESTAMP: {sliceTimestamp.ToString()}");
                     var hash = hashids.Encode(Math.Abs(timestamp));
                     dynamic urlHashPair = new ExpandoObject();
                     urlHashPair.url = url;
                     urlHashPair.hash = hash;
-                    // Do the work to shorten the url
                     return new OkObjectResult(urlHashPair);
                 }
 
@@ -55,25 +52,6 @@ namespace Shrtnr.Controllers
             {
                 _logger.LogError("Url Validation Threw Exception: ", ex);
                 return new StatusCodeResult(500);
-            }
-        }
-
-        // https://stackoverflow.com/questions/11454004/calculate-a-md5-hash-from-a-string
-        public static string CreateMD5(string input)
-        {
-            // Use input string to calculate MD5 hash
-            using (MD5 md5 = MD5.Create())
-            {
-                byte[] inputBytes = Encoding.ASCII.GetBytes(input);
-                byte[] hashBytes = md5.ComputeHash(inputBytes);
-
-                // Convert the byte array to hexadecimal string
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < hashBytes.Length; i++)
-                {
-                    sb.Append(hashBytes[i].ToString("X2"));
-                }
-                return sb.ToString();
             }
         }
     }

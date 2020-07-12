@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ShrtnrTableClient.Repository;
 using UrlValidationClient;
 
 namespace Shrtnr
@@ -22,7 +23,9 @@ namespace Shrtnr
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var cloudStorageAccount = CloudStorageAccount.Parse(Configuration.GetConnectionString("ShrtUrlTableConnectionString"));
 
+            services.AddScoped<IShrtUrlRepo>(x => new ShrtUrlRepo(cloudStorageAccount));
             services.AddControllersWithViews();
             services.AddHttpClient<IUrlValidator, UrlValidator>();
 

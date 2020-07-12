@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlValidationClient", "UrlV
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlValidationClientTests", "UrlValidationClientTests\UrlValidationClientTests.csproj", "{889ED01F-764F-40BA-A61A-7B4282DA9CE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShrtnerTableClient", "ShrtnerTableClient\ShrtnerTableClient.csproj", "{32748CDC-AFC9-45CA-8F83-4CC9E524C7D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShrtnrTableClient", "ShrtnrTableClient\ShrtnrTableClient.csproj", "{32748CDC-AFC9-45CA-8F83-4CC9E524C7D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
