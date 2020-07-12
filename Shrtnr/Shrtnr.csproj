@@ -26,6 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UrlValidationClient\" />
+    <Folder Include="Hashids\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UrlValidationClient\UrlValidationClient.csproj">

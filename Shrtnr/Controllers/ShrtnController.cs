@@ -9,6 +9,7 @@ using UrlValidationClient;
 using HashidsNet;
 using ShrtnrTableClient.Repository;
 using ShrtnrTableClient.Model.Dto;
+using Shrtnr.HashIds;
 
 namespace Shrtnr.Controllers
 {
@@ -19,12 +20,18 @@ namespace Shrtnr.Controllers
         private readonly ILogger<ShrtnController> _logger;
         private readonly IUrlValidator _urlValidator;
         private readonly IShrtUrlRepo _shrtUrlRepo;
+        private readonly IHasher _hasher;
 
-        public ShrtnController(ILogger<ShrtnController> logger, IUrlValidator urlValidator, IShrtUrlRepo shrtUrlRepo)
-        {
+        public ShrtnController(
+            ILogger<ShrtnController> logger,
+            IUrlValidator urlValidator,
+            IShrtUrlRepo shrtUrlRepo,
+            IHasher hasher
+        ) {
             _logger = logger;
             _urlValidator = urlValidator;
             _shrtUrlRepo = shrtUrlRepo;
+            _hasher = hasher;
         }
 
         [HttpPost]
@@ -38,14 +45,10 @@ namespace Shrtnr.Controllers
 
                 if (res.IsSuccessStatusCode)
                 {
-                    var hashids = new Hashids("this is my salt", 6);
-                    int timestamp = (int)(Int64)(DateTime.UtcNow.Subtract(DateTime.UnixEpoch)).TotalMilliseconds;
-                    var hash = hashids.Encode(Math.Abs(timestamp));
-
                     var tableRes = await _shrtUrlRepo.AddShrtUrl(new UrlHashPair
                     {
                         Url = url,
-                        Hash = hash
+                        Hash = _hasher.GetCode()
                     });
 
                     return new OkObjectResult(new UrlHashPair().FromShrtUrlEntity(tableRes));
@@ -58,7 +61,7 @@ namespace Shrtnr.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("Url Validation Threw Exception: ", ex);
+                _logger.LogError("Endpoint threw Exception: ", ex);
                 return new StatusCodeResult(500);
             }
         }

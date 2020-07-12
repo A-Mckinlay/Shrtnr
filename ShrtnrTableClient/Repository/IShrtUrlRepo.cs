@@ -6,6 +6,6 @@ namespace ShrtnrTableClient.Repository
 {
     public interface IShrtUrlRepo
     {
-        Task<ShrtUrlEntity> AddShrtUrl(UrlHashPair shrtUrlEntity);
+        Task<ShrtUrlEntity> AddShrtUrl(UrlHashPair urlHashPair);
     }
 }

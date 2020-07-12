@@ -6,6 +6,7 @@ using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Shrtnr.HashIds;
 using ShrtnrTableClient.Repository;
 using UrlValidationClient;
 
@@ -28,6 +29,7 @@ namespace Shrtnr
             services.AddScoped<IShrtUrlRepo>(x => new ShrtUrlRepo(cloudStorageAccount));
             services.AddControllersWithViews();
             services.AddHttpClient<IUrlValidator, UrlValidator>();
+            services.AddSingleton<IHasher>(new Hasher(Configuration["salt"]));
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

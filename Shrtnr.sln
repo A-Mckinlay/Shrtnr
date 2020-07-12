@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlValidationClientTests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShrtnrTableClient", "ShrtnrTableClient\ShrtnrTableClient.csproj", "{32748CDC-AFC9-45CA-8F83-4CC9E524C7D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShrtnrTests", "ShrtnrTests\ShrtnrTests.csproj", "{B5BDF252-5A9A-48C6-BCF3-B4B0D261339B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,5 +33,9 @@ Global
 		{32748CDC-AFC9-45CA-8F83-4CC9E524C7D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32748CDC-AFC9-45CA-8F83-4CC9E524C7D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32748CDC-AFC9-45CA-8F83-4CC9E524C7D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5BDF252-5A9A-48C6-BCF3-B4B0D261339B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5BDF252-5A9A-48C6-BCF3-B4B0D261339B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5BDF252-5A9A-48C6-BCF3-B4B0D261339B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5BDF252-5A9A-48C6-BCF3-B4B0D261339B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
