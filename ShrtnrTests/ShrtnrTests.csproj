@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="Hashids\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shrtnr\Shrtnr.csproj" />

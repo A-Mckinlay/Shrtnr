@@ -25,7 +25,6 @@
     <None Remove="ClientApp\src\App.test.js" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="UrlValidationClient\" />
     <Folder Include="Hashids\" />
   </ItemGroup>
   <ItemGroup>
