@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos.Table;
 using ShrtnrTableClient.Model;
@@ -21,7 +22,10 @@ namespace ShrtnrTableClient.Repository
         {
             if (urlHashPair == null) throw new ArgumentNullException("shrtUrlEntity");
 
-            var shrtUrlEntity = new ShrtUrlEntity(urlHashPair.Url, urlHashPair.Hash);
+            var shrtUrlEntity = new ShrtUrlEntity(urlHashPair.Hash)
+            {
+                Url = urlHashPair.Url
+            };
 
             TableOperation insertOrMergeOperation = TableOperation.InsertOrMerge(shrtUrlEntity);
 
@@ -29,6 +33,26 @@ namespace ShrtnrTableClient.Repository
             ShrtUrlEntity insertedShrtUrlEntity = result.Result as ShrtUrlEntity;
 
             return insertedShrtUrlEntity;
+        }
+
+        public async Task<ShrtUrlEntity> LookupShrtUrl(string code)
+        {
+            TableOperation retrieveOperation = TableOperation.Retrieve<ShrtUrlEntity>("findabetterpartitionkey", code);
+            TableResult result = await _shrtUrlTable.ExecuteAsync(retrieveOperation);
+            ShrtUrlEntity shrtUrlEntity = result.Result as ShrtUrlEntity;
+
+            return shrtUrlEntity;
+        }
+
+        public async Task<ShrtUrlEntity> IncrementClicks(ShrtUrlEntity shrtUrlEntity)
+        {
+            shrtUrlEntity.Clicks += 1;
+
+            TableOperation updateOperation = TableOperation.Merge(shrtUrlEntity);
+            TableResult result = await _shrtUrlTable.ExecuteAsync(updateOperation);
+            ShrtUrlEntity mergedShrtUrlEntity = result.Result as ShrtUrlEntity;
+
+            return mergedShrtUrlEntity;
         }
     }
 }

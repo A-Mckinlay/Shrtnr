@@ -59,16 +59,11 @@ namespace Shrtnr
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
-            {
+            { 
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
 
-                endpoints.MapGet("/{shrtId:regex(^[a-zA-Z0-9]*$):minlength(6)}", async context =>
-                {
-                    var shrtId = context.Request.RouteValues["shrtId"];
-                    await context.Response.WriteAsync($"This will handle ids: {shrtId}");
-                });
             });
 
             app.UseSpa(spa =>

@@ -35,7 +35,7 @@ namespace Shrtnr.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> PostAsync(string url)
+        public async Task<ActionResult> PostAsync(string url)
         {
             if (url == null) return new BadRequestResult();
 

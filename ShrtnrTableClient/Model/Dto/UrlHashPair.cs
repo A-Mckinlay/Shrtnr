@@ -11,7 +11,7 @@ namespace ShrtnrTableClient.Model.Dto
             return new UrlHashPair()
             {
                 Hash = shrtUrlEntity.RowKey,
-                Url = shrtUrlEntity.DecodePartitionKey(shrtUrlEntity.PartitionKey)
+                Url = shrtUrlEntity.Url
             };
         }
     }

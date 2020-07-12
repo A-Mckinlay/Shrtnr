@@ -33,7 +33,7 @@ namespace ShrtnrTests.Controllers
             );
             var actual = await controller.PostAsync(null);
 
-            Assert.Equal(typeof(BadRequestResult), actual.Result.GetType());
+            Assert.Equal(typeof(BadRequestResult), actual.GetType());
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace ShrtnrTests.Controllers
             );
             var actual = await controller.PostAsync(url);
 
-            Assert.Equal(typeof(NotFoundObjectResult), actual.Result.GetType());
+            Assert.Equal(typeof(NotFoundObjectResult), actual.GetType());
         }
 
         [Fact]
@@ -122,7 +122,7 @@ namespace ShrtnrTests.Controllers
         {
             var url = "www.example.com/example";
             var hash = "Xy12D7";
-            var shrtUrlEntity = new ShrtUrlEntity(url, hash);
+            var shrtUrlEntity = new ShrtUrlEntity(hash) { Url = url };
             var urlHashPair = new UrlHashPair()
             {
                 Hash = hash,
@@ -169,7 +169,7 @@ namespace ShrtnrTests.Controllers
         {
             var url = "www.example.com/example";
             var hash = "Xy12D7";
-            var shrtUrlEntity = new ShrtUrlEntity(url, hash);
+            var shrtUrlEntity = new ShrtUrlEntity(hash) { Url = url };
             var urlHashPair = new UrlHashPair()
             {
                 Hash = hash,
@@ -206,9 +206,9 @@ namespace ShrtnrTests.Controllers
 
             var expected = new OkObjectResult(new UrlHashPair().FromShrtUrlEntity(shrtUrlEntity));
 
-            Assert.Equal(typeof(OkObjectResult), res.Result.GetType());
-            Assert.Equal(urlHashPair.Url, ((UrlHashPair)((OkObjectResult)res.Result).Value).Url);
-            Assert.Equal(urlHashPair.Hash, ((UrlHashPair)((OkObjectResult)res.Result).Value).Hash);
+            Assert.Equal(typeof(OkObjectResult), res.GetType());
+            Assert.Equal(urlHashPair.Url, ((UrlHashPair)((OkObjectResult)res).Value).Url);
+            Assert.Equal(urlHashPair.Hash, ((UrlHashPair)((OkObjectResult)res).Value).Hash);
         }
 
         [Fact]
@@ -234,8 +234,8 @@ namespace ShrtnrTests.Controllers
             );
             var actual = await controller.PostAsync(url);
 
-            Assert.Equal(typeof(StatusCodeResult), actual.Result.GetType());
-            Assert.Equal(500, ((StatusCodeResult)actual.Result).StatusCode);
+            Assert.Equal(typeof(StatusCodeResult), actual.GetType());
+            Assert.Equal(500, ((StatusCodeResult)actual).StatusCode);
         }
 
         #endregion
