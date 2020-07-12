@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Dynamic;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using UrlValidationClient;
-using HashidsNet;
 using ShrtnrTableClient.Repository;
 using ShrtnrTableClient.Model.Dto;
 using Shrtnr.HashIds;
@@ -45,13 +42,13 @@ namespace Shrtnr.Controllers
 
                 if (res.IsSuccessStatusCode)
                 {
-                    var tableRes = await _shrtUrlRepo.AddShrtUrl(new UrlHashPair
+                    var result = await _shrtUrlRepo.AddShrtUrl(new ShrtUrlDto
                     {
                         Url = url,
-                        Hash = _hasher.GetCode()
+                        Code = _hasher.GetCode()
                     });
 
-                    return new OkObjectResult(new UrlHashPair().FromShrtUrlEntity(tableRes));
+                    return new OkObjectResult(result);
                 }
 
                 dynamic invalidUrlResult = new ExpandoObject();

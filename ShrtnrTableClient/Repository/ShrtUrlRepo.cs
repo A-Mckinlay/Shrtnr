@@ -18,13 +18,13 @@ namespace ShrtnrTableClient.Repository
             _shrtUrlTable = tableClient.GetTableReference("ShrtnrTable");
         }
 
-        public async Task<ShrtUrlEntity> AddShrtUrl(UrlHashPair urlHashPair)
+        public async Task<ShrtUrlDto> AddShrtUrl(ShrtUrlDto shrtUrlDto)
         {
-            if (urlHashPair == null) throw new ArgumentNullException("shrtUrlEntity");
+            if (shrtUrlDto == null) throw new ArgumentNullException("shrtUrlDto");
 
-            var shrtUrlEntity = new ShrtUrlEntity(urlHashPair.Hash)
+            var shrtUrlEntity = new ShrtUrlEntity(shrtUrlDto.Code)
             {
-                Url = urlHashPair.Url
+                Url = shrtUrlDto.Url
             };
 
             TableOperation insertOrMergeOperation = TableOperation.InsertOrMerge(shrtUrlEntity);
@@ -32,7 +32,7 @@ namespace ShrtnrTableClient.Repository
             TableResult result = await _shrtUrlTable.ExecuteAsync(insertOrMergeOperation);
             ShrtUrlEntity insertedShrtUrlEntity = result.Result as ShrtUrlEntity;
 
-            return insertedShrtUrlEntity;
+            return new ShrtUrlDto().FromShrtUrlEntity(insertedShrtUrlEntity);
         }
 
         public async Task<ShrtUrlEntity> LookupShrtUrl(string code)
@@ -44,7 +44,7 @@ namespace ShrtnrTableClient.Repository
             return shrtUrlEntity;
         }
 
-        public async Task<ShrtUrlEntity> IncrementClicks(ShrtUrlEntity shrtUrlEntity)
+        public async Task<ShrtUrlDto> IncrementClicks(ShrtUrlEntity shrtUrlEntity)
         {
             shrtUrlEntity.Clicks += 1;
 
@@ -52,7 +52,7 @@ namespace ShrtnrTableClient.Repository
             TableResult result = await _shrtUrlTable.ExecuteAsync(updateOperation);
             ShrtUrlEntity mergedShrtUrlEntity = result.Result as ShrtUrlEntity;
 
-            return mergedShrtUrlEntity;
+            return new ShrtUrlDto().FromShrtUrlEntity(mergedShrtUrlEntity);
         }
     }
 }

@@ -40,6 +40,7 @@ namespace ShrtnrTests.Controllers
         public async Task ItShouldCallTheUrlValidatorMockWithTheGivenUrl()
         {
             var url = "www.example.com/example";
+
             var loggerMock = new Mock<ILogger<ShrtnController>>();
             var urlValidatorMock = new Mock<IUrlValidator>();
             var hasherMock = new Mock<IHasher>();
@@ -64,6 +65,7 @@ namespace ShrtnrTests.Controllers
         public async Task ItShouldReturnNotFoundObjectResultWhenTheUrlCanNotBeValidated()
         {
             var url = "www.example.com/example";
+
             var loggerMock = new Mock<ILogger<ShrtnController>>();
             var urlValidatorMock = new Mock<IUrlValidator>();
             var hasherMock = new Mock<IHasher>();
@@ -122,12 +124,6 @@ namespace ShrtnrTests.Controllers
         {
             var url = "www.example.com/example";
             var hash = "Xy12D7";
-            var shrtUrlEntity = new ShrtUrlEntity(hash) { Url = url };
-            var urlHashPair = new UrlHashPair()
-            {
-                Hash = hash,
-                Url = url
-            };
 
             var loggerMock = new Mock<ILogger<ShrtnController>>();
             var urlValidatorMock = new Mock<IUrlValidator>();
@@ -146,7 +142,7 @@ namespace ShrtnrTests.Controllers
                 .Returns(hash);
 
             shrtUrlRepoMock
-                .Setup(x => x.AddShrtUrl(It.IsAny<UrlHashPair>()))
+                .Setup(x => x.AddShrtUrl(It.IsAny<ShrtUrlDto>()))
                 .Verifiable();
 
             var controller = new ShrtnController(
@@ -158,23 +154,19 @@ namespace ShrtnrTests.Controllers
             await controller.PostAsync(url);
 
             shrtUrlRepoMock.Verify(m => m.AddShrtUrl(
-                It.Is<UrlHashPair>(u => u.Url == url
-                    && u.Hash == hash
+                It.Is<ShrtUrlDto>(u => u.Url == url
+                    && u.Code == hash
                 )
             ));
         }
 
         [Fact]
-        public async Task ItShouldReturnOkObjectResultWithTheUrlHashPair()
+        public async Task ItShouldReturnOkObjectResultWithTheShrtUrlDto()
         {
             var url = "www.example.com/example";
             var hash = "Xy12D7";
             var shrtUrlEntity = new ShrtUrlEntity(hash) { Url = url };
-            var urlHashPair = new UrlHashPair()
-            {
-                Hash = hash,
-                Url = url
-            };
+            var shrtUrlDto = new ShrtUrlDto().FromShrtUrlEntity(shrtUrlEntity);
 
             var loggerMock = new Mock<ILogger<ShrtnController>>();
             var urlValidatorMock = new Mock<IUrlValidator>();
@@ -193,8 +185,8 @@ namespace ShrtnrTests.Controllers
                 .Returns(hash);
 
             shrtUrlRepoMock
-                .Setup(x => x.AddShrtUrl(It.IsAny<UrlHashPair>()))
-                .ReturnsAsync(shrtUrlEntity);
+                .Setup(x => x.AddShrtUrl(It.IsAny<ShrtUrlDto>()))
+                .ReturnsAsync(shrtUrlDto);
 
             var controller = new ShrtnController(
                 loggerMock.Object,
@@ -204,11 +196,11 @@ namespace ShrtnrTests.Controllers
             );
             var res = await controller.PostAsync(url);
 
-            var expected = new OkObjectResult(new UrlHashPair().FromShrtUrlEntity(shrtUrlEntity));
+            var expected = new OkObjectResult(new ShrtUrlDto().FromShrtUrlEntity(shrtUrlEntity));
 
             Assert.Equal(typeof(OkObjectResult), res.GetType());
-            Assert.Equal(urlHashPair.Url, ((UrlHashPair)((OkObjectResult)res).Value).Url);
-            Assert.Equal(urlHashPair.Hash, ((UrlHashPair)((OkObjectResult)res).Value).Hash);
+            Assert.Equal(shrtUrlDto.Url, ((ShrtUrlDto)((OkObjectResult)res).Value).Url);
+            Assert.Equal(shrtUrlDto.Code, ((ShrtUrlDto)((OkObjectResult)res).Value).Code);
         }
 
         [Fact]
