@@ -6,7 +6,7 @@ using ShrtnrTableClient.Repository;
 namespace Shrtnr.Controllers
 {
     [ApiController]
-    [Route("stats")]
+    [Route("/api/stats")]
     public class StatsController : ControllerBase
     {
         private readonly IShrtUrlRepo _shrtnUrlRepo;

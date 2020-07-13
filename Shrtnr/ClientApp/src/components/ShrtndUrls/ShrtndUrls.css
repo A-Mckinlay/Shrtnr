@@ -1,0 +1,22 @@
+.shrtnd-urls-ul {
+    margin: 2rem;
+    width: 80%;
+}
+
+.shrtnd-url-li {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.shrtnd-url-li span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.shrtnd-url-li span:first-of-type {
+    flex-grow: 3;
+}
+
+

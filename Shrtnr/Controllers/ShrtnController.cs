@@ -11,7 +11,7 @@ using Shrtnr.HashIds;
 namespace Shrtnr.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/api/[controller]")]
     public class ShrtnController : ControllerBase
     {
         private readonly ILogger<ShrtnController> _logger;

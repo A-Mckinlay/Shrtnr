@@ -1,48 +1,52 @@
-import React from 'react';
-import { Form, Input, Button, Col, Row } from 'reactstrap';
+import React, { useState } from 'react';
+import { Col } from 'reactstrap';
+import ShrtnForm from './ShrtnForm/ShrtnForm';
+import ShrtndUrls from './ShrtndUrls/ShrtndUrls';
 
-const onSubmit = async (syntheticEvent) => {
-  syntheticEvent.preventDefault();
+export const Home = () => {
+  const [shrtndUrlsState, updateShrtndUrlsState] = useState({
+    loading: false,
+    urls: []
+  });
+
+  const onSubmit = async (syntheticEvent) => {
+    syntheticEvent.preventDefault();
+    updateShrtndUrlsState({...shrtndUrlsState, loading: true});
+    
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
   
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-
-  const options = {
-    method: 'POST',
-    body: JSON.stringify(syntheticEvent.target[0].value),
-    headers: myHeaders
-  };
-
-  const response = await fetch("/shrtn", options);
-
-  if (response.ok) {
-    const data = await response.json()
-    console.log(data);
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(syntheticEvent.target[0].value),
+      headers: myHeaders
+    };
+  
+    const response = await fetch("api/shrtn", options);
+  
+    if (response.ok) {
+      const {url, code} = await response.json()
+      console.log(url, code)
+      updateShrtndUrlsState({
+        ...shrtndUrlsState, 
+        urls: shrtndUrlsState.urls.concat([{url: url, code: code}]),
+        loadingState: false,
+      });
+    } else {
+      updateShrtndUrlsState({...shrtndUrlsState, loading: false});
+    }
   }
+
+  return (
+    <>
+      <h1>Shrtn your Url</h1>
+
+      <Col>
+        <ShrtnForm onSubmit={onSubmit} loading={shrtndUrlsState.loading}/>
+        {shrtndUrlsState.urls.length > 0 && <ShrtndUrls urls={shrtndUrlsState.urls} />}
+      </Col>
+    </>
+  )
 }
-
-export const Home = (props) => (
-  <>
-    <h1>Shrtn your Url</h1>
-
-    <Col>
-      <Form onSubmit={onSubmit}>
-        <Row form>
-          <Col md={11}>
-            <Input 
-              type="url"
-              name="url"
-              placeholder="www.example.com/looooooooooooong"
-              bsSize="lg"
-            />
-          </Col>
-          <Col md={1}>
-            <Button size="lg">&gt;</Button>
-          </Col>
-        </Row>
-      </Form>
-    </Col>
-  </>
-)
 
 export default Home;
