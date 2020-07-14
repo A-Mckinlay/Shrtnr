@@ -6,17 +6,21 @@
 .shrtnd-url-li {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
 }
 
-.shrtnd-url-li span {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+@media only screen and (max-width: 767px) {
+    .shrtnd-url-li {
+        flex-wrap: wrap;
+    }
 }
 
 .shrtnd-url-li span:first-of-type {
     flex-grow: 3;
 }
 
+.shrtnd-url-li span, .shrtnd-url-li span>a {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 

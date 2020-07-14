@@ -11,14 +11,14 @@ export const Stats = () => {
 
   useEffect(() => {
     async function fetchData() {
-      updateStatsState({...statsState, loading: true})
+      updateStatsState(state => ({...state, loading: true}))
       const response = await fetch(`/api/stats/${code}`);
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        updateStatsState({...statsState, loading: false, stats: data});
+        updateStatsState(state => ({...state, loading: false, stats: data}));
       } else {
-        updateStatsState({...statsState, loading: false});
+        updateStatsState(state => ({...state, loading: false}));
       }
     }
     fetchData();
@@ -47,7 +47,7 @@ export const Stats = () => {
 
 export const StatsItem = (props) => (
   <div className="stats-item">
-    <div>URL: ${props.url}</div>
+    <div>URL: {props.url}</div>
     <div>Shrt URL: {`${window.location.origin}/${props.code}`}</div>
     <div>Clicks: {props.clicks}</div>
   </div>
